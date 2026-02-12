@@ -1,0 +1,74 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+build/
+*.local
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+
+# Logs and debug
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Cache and temp
+.cache/
+.parcel-cache/
+.vite/
+.turbo/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+.tmp
+temp/
+tmp/
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+.playwright/
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# TypeScript
+*.tsbuildinfo
+
+# Editor and IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Optional: uncomment to ignore local VS Code settings
+# !.vscode/settings.json
