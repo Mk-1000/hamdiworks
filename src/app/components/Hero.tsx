@@ -224,12 +224,12 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="relative flex justify-center lg:justify-end"
           >
-            <div className="relative">
-              <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-teal-500/20 shadow-2xl">
+            <div className="relative flex justify-center items-center">
+              <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-teal-500/20 shadow-2xl flex items-center justify-center bg-white dark:bg-gray-800">
                 <ImageWithFallback
                   src={`${import.meta.env.BASE_URL}profile.png`}
                   alt="Hamdi Mokni"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center min-w-0 min-h-0 scale-105"
                 />
               </div>
               
