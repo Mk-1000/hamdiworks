@@ -227,7 +227,7 @@ export function Hero() {
             <div className="relative">
               <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-teal-500/20 shadow-2xl">
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1737575655055-e3967cbefd03?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBkZXZlbG9wZXIlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NzA5MDExMDJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                  src="/profile.png"
                   alt="Hamdi Mokni"
                   className="w-full h-full object-cover"
                 />
