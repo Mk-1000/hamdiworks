@@ -229,7 +229,7 @@ export function Hero() {
                 <ImageWithFallback
                   src={`${import.meta.env.BASE_URL}profile.png`}
                   alt="Hamdi Mokni"
-                  className="w-full h-full object-cover object-center min-w-0 min-h-0 scale-105"
+                  className="w-full h-full object-cover object-center min-w-0 min-h-0 scale-100"
                 />
               </div>
               
