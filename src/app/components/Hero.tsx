@@ -28,8 +28,8 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
       speedY: number;
     }> = [];
 
-    // Create particles
-    for (let i = 0; i < 50; i++) {
+    // Create particles (reduced count for performance)
+    for (let i = 0; i < 30; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -39,9 +39,16 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
       });
     }
 
+    let frameCount = 0;
+    let rafId: number;
     function animate() {
       if (!ctx || !canvas) return;
-      
+      frameCount++;
+      const throttle = 2;
+      if (frameCount % throttle !== 0) {
+        rafId = requestAnimationFrame(animate);
+        return;
+      }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw particles
@@ -80,10 +87,13 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
         });
       });
 
-      requestAnimationFrame(animate);
+      rafId = requestAnimationFrame(animate);
     }
 
-    animate();
+    const tick = () => {
+      rafId = requestAnimationFrame(animate);
+    };
+    tick();
 
     const handleResize = () => {
       canvas.width = window.innerWidth;
@@ -91,7 +101,10 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
     };
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const scrollToProjects = () => {
@@ -246,11 +259,23 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
           >
             <div className="relative flex justify-center items-center">
               <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-teal-500/20 shadow-2xl flex items-center justify-center bg-white dark:bg-gray-800">
-                <ImageWithFallback
-                  src={hero?.image_url ?? `${import.meta.env.BASE_URL}profile.png`}
-                  alt={h.name}
-                  className="w-full h-full object-cover object-center min-w-0 min-h-0 scale-100"
-                />
+                {hero?.image_url ? (
+                  <ImageWithFallback
+                    src={hero.image_url}
+                    alt={h.name}
+                    className="w-full h-full object-cover object-center min-w-0 min-h-0 scale-100"
+                    loading="eager"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-4xl font-bold">
+                    {h.name
+                      .split(/\s+/)
+                      .map((w) => w[0])
+                      .join('')
+                      .slice(0, 2)
+                      .toUpperCase() || '?'}
+                  </div>
+                )}
               </div>
               
               {/* Floating Tech Stack Icons */}

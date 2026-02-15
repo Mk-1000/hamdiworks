@@ -3,6 +3,7 @@ import { supabase } from '../../../lib/supabase';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
+import { SortableList } from '../components/SortableList';
 import type { ExperienceRow } from '../../../types/content';
 
 export function ExperienceEditor() {
@@ -65,6 +66,11 @@ export function ExperienceEditor() {
     if (editingId === id) setEditingId(null);
   };
 
+  const reorderExperiences = async (orderedIds: string[]) => {
+    await Promise.all(orderedIds.map((id, index) => supabase.from('experiences').update({ sort_order: index }).eq('id', id)));
+    await load();
+  };
+
   if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading...</div>;
 
   return (
@@ -86,17 +92,18 @@ export function ExperienceEditor() {
       ) : (
         <Button onClick={startAdd} className="mb-6">Add experience</Button>
       )}
-      <ul className="space-y-2">
-        {experiences.map((e) => (
-          <li key={e.id} className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700">
-            <span className="font-medium">{e.company} – {e.role}</span>
+      <SortableList items={experiences} onReorder={reorderExperiences}>
+        {(e, dragHandle) => (
+          <>
+            {dragHandle}
+            <span className="font-medium flex-1">{e.company} – {e.role}</span>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={() => startEdit(e)}>Edit</Button>
               <Button variant="destructive" size="sm" onClick={() => handleDelete(e.id)}>Delete</Button>
             </div>
-          </li>
-        ))}
-      </ul>
+          </>
+        )}
+      </SortableList>
     </div>
   );
 }

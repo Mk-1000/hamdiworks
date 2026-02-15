@@ -3,6 +3,7 @@ import { supabase } from '../../../lib/supabase';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
+import { SortableList } from '../components/SortableList';
 import type { AboutTextRow, AboutHighlightRow, AboutStatRow } from '../../../types/content';
 
 const TEXT_KEYS = ['section_title', 'heading', 'paragraph_1', 'paragraph_2', 'paragraph_3'] as const;
@@ -91,6 +92,16 @@ export function AboutEditor() {
     await load();
   };
 
+  const reorderHighlights = async (orderedIds: string[]) => {
+    await Promise.all(orderedIds.map((id, index) => supabase.from('about_highlights').update({ sort_order: index }).eq('id', id)));
+    await load();
+  };
+
+  const reorderStats = async (orderedIds: string[]) => {
+    await Promise.all(orderedIds.map((id, index) => supabase.from('about_stats').update({ sort_order: index }).eq('id', id)));
+    await load();
+  };
+
   if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading...</div>;
 
   return (
@@ -128,17 +139,18 @@ export function AboutEditor() {
         ) : (
           <Button className="mb-4" onClick={() => setEditingHighlight({ id: '', icon_name: 'Code', title: '', description: '', sort_order: 0 })}>Add highlight</Button>
         )}
-        <ul className="space-y-2">
-          {highlights.map((h) => (
-            <li key={h.id} className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700">
-              <span className="font-medium">{h.title}</span>
+        <SortableList items={highlights} onReorder={reorderHighlights}>
+          {(h, dragHandle) => (
+            <>
+              {dragHandle}
+              <span className="font-medium flex-1">{h.title}</span>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" onClick={() => { setEditingHighlight(h); setHighlightForm({ icon_name: h.icon_name, title: h.title, description: h.description }); }}>Edit</Button>
                 <Button variant="destructive" size="sm" onClick={() => deleteHighlight(h.id)}>Delete</Button>
               </div>
-            </li>
-          ))}
-        </ul>
+            </>
+          )}
+        </SortableList>
       </div>
 
       <div>
@@ -155,17 +167,18 @@ export function AboutEditor() {
         ) : (
           <Button className="mb-4" onClick={() => setEditingStat({ id: '', number: '', label: '', sort_order: 0 })}>Add stat</Button>
         )}
-        <ul className="space-y-2">
-          {stats.map((s) => (
-            <li key={s.id} className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700">
-              <span>{s.number} – {s.label}</span>
+        <SortableList items={stats} onReorder={reorderStats}>
+          {(s, dragHandle) => (
+            <>
+              {dragHandle}
+              <span className="flex-1">{s.number} – {s.label}</span>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" onClick={() => { setEditingStat(s); setStatForm({ number: s.number, label: s.label }); }}>Edit</Button>
                 <Button variant="destructive" size="sm" onClick={() => deleteStat(s.id)}>Delete</Button>
               </div>
-            </li>
-          ))}
-        </ul>
+            </>
+          )}
+        </SortableList>
       </div>
     </div>
   );

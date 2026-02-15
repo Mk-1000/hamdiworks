@@ -3,6 +3,8 @@ import { supabase } from '../../../lib/supabase';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
+import { ImageUploadField } from '../components/ImageUploadField';
+import { SortableList } from '../components/SortableList';
 import type { ProjectRow } from '../../../types/content';
 
 export function ProjectsEditor() {
@@ -77,6 +79,11 @@ export function ProjectsEditor() {
     if (editingId === id) setEditingId(null);
   };
 
+  const reorderProjects = async (orderedIds: string[]) => {
+    await Promise.all(orderedIds.map((id, index) => supabase.from('projects').update({ sort_order: index }).eq('id', id)));
+    await load();
+  };
+
   if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading projects...</div>;
 
   return (
@@ -92,10 +99,13 @@ export function ProjectsEditor() {
             <Label>Description</Label>
             <Input value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} required />
           </div>
-          <div>
-            <Label>Image URL</Label>
-            <Input value={form.image_url} onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))} />
-          </div>
+          <ImageUploadField
+            label="Project image"
+            value={form.image_url}
+            onChange={(url) => setForm((f) => ({ ...f, image_url: url }))}
+            storagePathPrefix={`projects/${editingId === 'new' ? 'new' : editingId}`}
+            maxWidth={800}
+          />
           <div>
             <Label>Tech (comma-separated)</Label>
             <Input value={form.tech} onChange={(e) => setForm((f) => ({ ...f, tech: e.target.value }))} placeholder="React, Node, ..." />
@@ -120,17 +130,18 @@ export function ProjectsEditor() {
       ) : (
         <Button onClick={startAdd} className="mb-6">Add project</Button>
       )}
-      <ul className="space-y-2">
-        {projects.map((p) => (
-          <li key={p.id} className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700">
-            <span className="text-gray-900 dark:text-white font-medium">{p.title}</span>
+      <SortableList items={projects} onReorder={reorderProjects}>
+        {(p, dragHandle) => (
+          <>
+            {dragHandle}
+            <span className="text-gray-900 dark:text-white font-medium flex-1">{p.title}</span>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={() => startEdit(p)}>Edit</Button>
               <Button variant="destructive" size="sm" onClick={() => handleDelete(p.id)}>Delete</Button>
             </div>
-          </li>
-        ))}
-      </ul>
+          </>
+        )}
+      </SortableList>
     </div>
   );
 }

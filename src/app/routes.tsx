@@ -1,15 +1,25 @@
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router';
 import App from './App';
 import { Login } from './admin/Login';
-import { AdminLayout } from './admin/AdminLayout';
 import { ProtectedRoute } from './admin/ProtectedRoute';
-import { HeroEditor } from './admin/editors/HeroEditor';
-import { AboutEditor } from './admin/editors/AboutEditor';
-import { SkillsEditor } from './admin/editors/SkillsEditor';
-import { ProjectsEditor } from './admin/editors/ProjectsEditor';
-import { ExperienceEditor } from './admin/editors/ExperienceEditor';
-import { CertificationsEditor } from './admin/editors/CertificationsEditor';
-import { ContactEditor } from './admin/editors/ContactEditor';
+
+const AdminLayout = lazy(() => import('./admin/AdminLayout').then((m) => ({ default: m.AdminLayout })));
+const HeroEditor = lazy(() => import('./admin/editors/HeroEditor').then((m) => ({ default: m.HeroEditor })));
+const AboutEditor = lazy(() => import('./admin/editors/AboutEditor').then((m) => ({ default: m.AboutEditor })));
+const SkillsEditor = lazy(() => import('./admin/editors/SkillsEditor').then((m) => ({ default: m.SkillsEditor })));
+const ProjectsEditor = lazy(() => import('./admin/editors/ProjectsEditor').then((m) => ({ default: m.ProjectsEditor })));
+const ExperienceEditor = lazy(() => import('./admin/editors/ExperienceEditor').then((m) => ({ default: m.ExperienceEditor })));
+const CertificationsEditor = lazy(() => import('./admin/editors/CertificationsEditor').then((m) => ({ default: m.CertificationsEditor })));
+const ContactEditor = lazy(() => import('./admin/editors/ContactEditor').then((m) => ({ default: m.ContactEditor })));
+
+function AdminFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center text-gray-500 dark:text-gray-400">
+      Loading admin…
+    </div>
+  );
+}
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
 
@@ -22,7 +32,9 @@ export const router = createBrowserRouter(
       path: 'admin',
       element: (
         <ProtectedRoute>
-          <AdminLayout />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminLayout />
+          </Suspense>
         </ProtectedRoute>
       ),
       children: [

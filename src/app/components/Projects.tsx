@@ -36,7 +36,7 @@ export function Projects({ projects }: { projects?: ProjectRow[] | null }) {
 }
 
 function ProjectCard({ project, index }: { project: ProjectRow; index: number }) {
-  const image = project.image_url ?? '';
+  const hasImage = project.image_url && project.image_url.trim() !== '';
   const tech = Array.isArray(project.tech) ? project.tech : [];
   return (
     <motion.div
@@ -50,15 +50,21 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
       {/* Project Image */}
       <div className="relative h-64 overflow-hidden">
         <motion.div
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: hasImage ? 1.1 : 1 }}
           transition={{ duration: 0.3 }}
           className="h-full"
         >
-          <ImageWithFallback
-            src={image}
-            alt={project.title}
-            className="w-full h-full object-cover"
-          />
+          {hasImage ? (
+            <ImageWithFallback
+              src={project.image_url!}
+              alt={project.title}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+              <span className="text-6xl font-bold opacity-50">{project.title[0]?.toUpperCase() ?? '?'}</span>
+            </div>
+          )}
         </motion.div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         

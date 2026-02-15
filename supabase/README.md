@@ -12,6 +12,7 @@ Go to [supabase.com](https://supabase.com) → your project (or create one).
 2. Click **New query**.
 3. Copy the **entire** contents of `supabase/migrations/001_schema.sql` from this repo and paste into the editor.
 4. Click **Run** (or press Ctrl+Enter). You should see "Success. No rows returned."
+5. Run `supabase/migrations/002_storage_bucket.sql` the same way to create the **portfolio** storage bucket and its RLS policies (used for hero and project image uploads).
 
 ## 3. Seed initial content
 

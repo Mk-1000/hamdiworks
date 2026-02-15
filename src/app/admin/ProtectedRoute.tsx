@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import type { Session } from '@supabase/supabase-js';
 import { Navigate, useLocation } from 'react-router';
 import { supabase } from '../../lib/supabase';
+
+const FALLBACK_MS = 4000;
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -9,19 +12,44 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
+    let fallbackId: ReturnType<typeof setTimeout> | null = null;
+    let resolved = false;
 
-    const check = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (mounted) {
-        setAuthenticated(!!session);
-        setLoading(false);
-      }
+    const applyResult = (session: Session | null) => {
+      if (!mounted || resolved) return;
+      resolved = true;
+      if (fallbackId) clearTimeout(fallbackId);
+      fallbackId = null;
+      setAuthenticated(!!session);
+      setLoading(false);
     };
 
-    check();
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => check());
+    // Primary: use onAuthStateChange; it fires with session when client restores from storage (e.g. on reload)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      applyResult(session);
+    });
+
+    // Fallback: if no event fires within FALLBACK_MS (e.g. offline or edge case), resolve anyway
+    fallbackId = setTimeout(() => {
+      if (!mounted || resolved) return;
+      resolved = true;
+      fallbackId = null;
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (mounted) {
+          setAuthenticated(!!session);
+          setLoading(false);
+        }
+      }).catch(() => {
+        if (mounted) {
+          setAuthenticated(false);
+          setLoading(false);
+        }
+      });
+    }, FALLBACK_MS);
+
     return () => {
       mounted = false;
+      if (fallbackId) clearTimeout(fallbackId);
       subscription.unsubscribe();
     };
   }, []);

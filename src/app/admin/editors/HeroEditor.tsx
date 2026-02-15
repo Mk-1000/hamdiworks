@@ -3,6 +3,7 @@ import { supabase } from '../../../lib/supabase';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
+import { ImageUploadField } from '../components/ImageUploadField';
 import type { HeroRow } from '../../../types/content';
 
 export function HeroEditor() {
@@ -105,10 +106,13 @@ export function HeroEditor() {
           <Label>CV URL</Label>
           <Input value={form.cv_url} onChange={(e) => setForm((f) => ({ ...f, cv_url: e.target.value }))} placeholder="https://..." />
         </div>
-        <div>
-          <Label>Image URL</Label>
-          <Input value={form.image_url} onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))} placeholder="https://..." />
-        </div>
+        <ImageUploadField
+          label="Profile image"
+          value={form.image_url}
+          onChange={(url) => setForm((f) => ({ ...f, image_url: url }))}
+          storagePathPrefix="hero"
+          maxWidth={1200}
+        />
         <div>
           <Label>GitHub URL</Label>
           <Input value={form.github} onChange={(e) => setForm((f) => ({ ...f, github: e.target.value }))} placeholder="https://github.com/..." />

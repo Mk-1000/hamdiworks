@@ -1,21 +1,14 @@
-import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
-export function LoadingScreen() {
-  const [isLoading, setIsLoading] = useState(true);
+interface LoadingScreenProps {
+  /** When false, loader fades out. Driven by content readiness + min display time. */
+  visible: boolean;
+}
 
-  useEffect(() => {
-    // Simulate loading time
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
+export function LoadingScreen({ visible }: LoadingScreenProps) {
   return (
     <AnimatePresence>
-      {isLoading && (
+      {visible && (
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Skills } from './components/Skills';
@@ -12,9 +12,12 @@ import { ThemeProvider } from './components/ThemeProvider';
 import { LoadingScreen } from './components/LoadingScreen';
 import { useContent } from '../hooks/useContent';
 
+const MIN_LOADING_MS = 500;
+
 export default function App() {
   const [scrollY, setScrollY] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
+  const mountTimeRef = useRef(Date.now());
   const { data: content, loading: contentLoading, error: contentError, isConfigured } = useContent();
 
   useEffect(() => {
@@ -23,21 +26,21 @@ export default function App() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Set loaded after a short delay
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 2000);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearTimeout(timer);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const contentReady = !contentLoading && (content != null || contentError != null || !isConfigured);
+    if (!contentReady) return;
+    const elapsed = Date.now() - mountTimeRef.current;
+    const remaining = Math.max(0, MIN_LOADING_MS - elapsed);
+    const timer = setTimeout(() => setShowLoadingScreen(false), remaining);
+    return () => clearTimeout(timer);
+  }, [contentLoading, content, contentError, isConfigured]);
 
   return (
     <ThemeProvider>
-      <LoadingScreen />
+      <LoadingScreen visible={showLoadingScreen} />
       <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
         <ScrollProgress />
         <Navigation scrollY={scrollY} />

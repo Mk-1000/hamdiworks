@@ -3,6 +3,7 @@ import { supabase } from '../../../lib/supabase';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
+import { SortableList } from '../components/SortableList';
 import type { CertificationRow, AchievementRow } from '../../../types/content';
 
 export function CertificationsEditor() {
@@ -66,6 +67,16 @@ export function CertificationsEditor() {
     setEditingAchId(null);
   };
 
+  const reorderCertifications = async (orderedIds: string[]) => {
+    await Promise.all(orderedIds.map((id, index) => supabase.from('certifications').update({ sort_order: index }).eq('id', id)));
+    await load();
+  };
+
+  const reorderAchievements = async (orderedIds: string[]) => {
+    await Promise.all(orderedIds.map((id, index) => supabase.from('achievements').update({ sort_order: index }).eq('id', id)));
+    await load();
+  };
+
   if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading...</div>;
 
   return (
@@ -88,17 +99,18 @@ export function CertificationsEditor() {
           </form>
         )}
         {!editingCertId && <Button className="mb-4" onClick={() => setEditingCertId('new')}>Add certification</Button>}
-        <ul className="space-y-2">
-          {certifications.map((c) => (
-            <li key={c.id} className="flex justify-between py-2 border-b border-gray-200 dark:border-gray-700">
-              <span className="font-medium">{c.title} – {c.issuer}</span>
+        <SortableList items={certifications} onReorder={reorderCertifications}>
+          {(c, dragHandle) => (
+            <>
+              {dragHandle}
+              <span className="font-medium flex-1">{c.title} – {c.issuer}</span>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" onClick={() => { setEditingCertId(c.id); setCertForm({ title: c.title, issuer: c.issuer, date: c.date, description: c.description, skills: Array.isArray(c.skills) ? c.skills.join(', ') : '' }); }}>Edit</Button>
                 <Button variant="destructive" size="sm" onClick={() => deleteCert(c.id)}>Delete</Button>
               </div>
-            </li>
-          ))}
-        </ul>
+            </>
+          )}
+        </SortableList>
       </div>
 
       <div>
@@ -113,17 +125,18 @@ export function CertificationsEditor() {
           </form>
         )}
         {!editingAchId && <Button className="mb-4" onClick={() => setEditingAchId('new')}>Add achievement</Button>}
-        <ul className="space-y-2">
-          {achievements.map((a) => (
-            <li key={a.id} className="flex justify-between py-2 border-b border-gray-200 dark:border-gray-700">
-              <span>{a.text}</span>
+        <SortableList items={achievements} onReorder={reorderAchievements}>
+          {(a, dragHandle) => (
+            <>
+              {dragHandle}
+              <span className="flex-1">{a.text}</span>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" onClick={() => { setEditingAchId(a.id); setAchForm({ text: a.text }); }}>Edit</Button>
                 <Button variant="destructive" size="sm" onClick={() => deleteAch(a.id)}>Delete</Button>
               </div>
-            </li>
-          ))}
-        </ul>
+            </>
+          )}
+        </SortableList>
       </div>
     </div>
   );

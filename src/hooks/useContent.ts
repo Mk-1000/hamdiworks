@@ -3,6 +3,9 @@ import { supabase } from '../lib/supabase';
 import type { ContentData } from '../types/content';
 
 const PLACEHOLDER_URL = 'https://placeholder.supabase.co';
+const CACHE_TTL_MS = 2 * 60 * 1000;
+
+let cache: { data: ContentData; until: number } | null = null;
 
 export function useContent(): {
   data: ContentData | null;
@@ -14,13 +17,25 @@ export function useContent(): {
   const url = import.meta.env.VITE_SUPABASE_URL ?? '';
   const isConfigured = !!url && url !== PLACEHOLDER_URL;
 
-  const [data, setData] = useState<ContentData | null>(null);
-  const [loading, setLoading] = useState(!!isConfigured);
+  const [data, setData] = useState<ContentData | null>(() => {
+    if (!isConfigured || !cache || Date.now() > cache.until) return null;
+    return cache.data;
+  });
+  const [loading, setLoading] = useState(() => {
+    if (!isConfigured) return false;
+    if (cache && Date.now() <= cache.until) return false;
+    return true;
+  });
   const [error, setError] = useState<Error | null>(null);
 
   const fetchAll = useCallback(async () => {
     if (!isConfigured) {
       setData(null);
+      setLoading(false);
+      return;
+    }
+    if (cache && Date.now() <= cache.until) {
+      setData(cache.data);
       setLoading(false);
       return;
     }
@@ -85,7 +100,7 @@ export function useContent(): {
         skills: skills.filter((s: { category_id: string }) => s.category_id === cat.id),
       }));
 
-      setData({
+      const next = {
         hero,
         aboutText,
         aboutHighlights,
@@ -96,10 +111,13 @@ export function useContent(): {
         certifications,
         achievements,
         contactInfo,
-      });
+      };
+      setData(next);
+      cache = { data: next, until: Date.now() + CACHE_TTL_MS };
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
       setData(null);
+      cache = null;
     } finally {
       setLoading(false);
     }
@@ -109,5 +127,10 @@ export function useContent(): {
     fetchAll();
   }, [fetchAll]);
 
-  return { data, loading, error, isConfigured, refetch: fetchAll };
+  const refetch = useCallback(() => {
+    cache = null;
+    return fetchAll();
+  }, [fetchAll]);
+
+  return { data, loading, error, isConfigured, refetch };
 }

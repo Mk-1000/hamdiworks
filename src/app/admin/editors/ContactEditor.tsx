@@ -3,6 +3,7 @@ import { supabase } from '../../../lib/supabase';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
+import { SortableList } from '../components/SortableList';
 import type { ContactInfoRow } from '../../../types/content';
 
 const TYPE_OPTIONS = ['email', 'phone', 'location'];
@@ -51,6 +52,11 @@ export function ContactEditor() {
     if (editingId === id) setEditingId(null);
   };
 
+  const reorderItems = async (orderedIds: string[]) => {
+    await Promise.all(orderedIds.map((id, index) => supabase.from('contact_info').update({ sort_order: index }).eq('id', id)));
+    await load();
+  };
+
   if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading...</div>;
 
   return (
@@ -75,17 +81,18 @@ export function ContactEditor() {
       ) : (
         <Button onClick={startAdd} className="mb-6">Add contact info</Button>
       )}
-      <ul className="space-y-2">
-        {items.map((row) => (
-          <li key={row.id} className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700">
-            <span className="font-medium">{row.label}: {row.value}</span>
+      <SortableList items={items} onReorder={reorderItems}>
+        {(row, dragHandle) => (
+          <>
+            {dragHandle}
+            <span className="font-medium flex-1">{row.label}: {row.value}</span>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={() => startEdit(row)}>Edit</Button>
               <Button variant="destructive" size="sm" onClick={() => handleDelete(row.id)}>Delete</Button>
             </div>
-          </li>
-        ))}
-      </ul>
+          </>
+        )}
+      </SortableList>
     </div>
   );
 }

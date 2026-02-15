@@ -3,6 +3,7 @@ import { supabase } from '../../../lib/supabase';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
+import { SortableList } from '../components/SortableList';
 import type { SkillCategoryRow, SkillRow } from '../../../types/content';
 
 const ICON_OPTIONS = ['Server', 'Code', 'Database', 'Container', 'Layers', 'Cloud'];
@@ -71,6 +72,16 @@ export function SkillsEditor() {
     setEditingSkill(null);
   };
 
+  const reorderCategories = async (orderedIds: string[]) => {
+    await Promise.all(orderedIds.map((id, index) => supabase.from('skill_categories').update({ sort_order: index }).eq('id', id)));
+    await load();
+  };
+
+  const reorderSkills = async (_categoryId: string, orderedIds: string[]) => {
+    await Promise.all(orderedIds.map((id, index) => supabase.from('skills').update({ sort_order: index }).eq('id', id)));
+    await load();
+  };
+
   if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading...</div>;
 
   return (
@@ -99,46 +110,50 @@ export function SkillsEditor() {
 
       {!editingCatId && <Button onClick={() => { setEditingCatId('new'); setCatForm({ title: '', icon_name: 'Server' }); }}>Add category</Button>}
 
-      <ul className="space-y-6">
-        {categories.map((cat) => (
-          <li key={cat.id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-            <div className="flex justify-between items-center mb-2">
-              <span className="font-semibold">{cat.title}</span>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => { setEditingCatId(cat.id); setCatForm({ title: cat.title, icon_name: cat.icon_name }); }}>Edit</Button>
-                <Button variant="destructive" size="sm" onClick={() => deleteCategory(cat.id)}>Delete</Button>
+      <SortableList items={categories} onReorder={reorderCategories}>
+        {(cat, dragHandle) => (
+          <>
+            {dragHandle}
+            <div className="flex-1 border border-gray-200 dark:border-gray-700 rounded-lg p-4 min-w-0">
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-semibold">{cat.title}</span>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" onClick={() => { setEditingCatId(cat.id); setCatForm({ title: cat.title, icon_name: cat.icon_name }); }}>Edit</Button>
+                  <Button variant="destructive" size="sm" onClick={() => deleteCategory(cat.id)}>Delete</Button>
+                </div>
               </div>
-            </div>
-            {(editingSkill && cat.skills.some((s) => s.id === editingSkill.id)) || addingForCatId === cat.id ? (
-              <form onSubmit={saveSkill} className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded space-y-2">
-                <Label>{editingSkill ? 'Edit skill' : 'New skill'}</Label>
-                <Input placeholder="Skill name" value={skillForm.name} onChange={(e) => setSkillForm((f) => ({ ...f, name: e.target.value }))} required />
-                <div className="flex gap-2">
-                  <Input type="number" min={0} max={100} value={skillForm.level} onChange={(e) => setSkillForm((f) => ({ ...f, level: Number(e.target.value) }))} />
-                  <Input placeholder="Years (e.g. 2+)" value={skillForm.years} onChange={(e) => setSkillForm((f) => ({ ...f, years: e.target.value }))} />
-                </div>
-                <div className="flex gap-2">
-                  <Button type="submit">Save</Button>
-                  <Button type="button" variant="outline" size="sm" onClick={() => { setEditingSkill(null); setAddingForCatId(null); setSkillForm({ name: '', level: 80, years: '1+' }); }}>Cancel</Button>
-                </div>
-              </form>
-            ) : (
-              <Button size="sm" variant="outline" className="mb-2" onClick={() => { setAddingForCatId(cat.id); setSkillForm({ name: '', level: 80, years: '1+' }); }}>Add skill</Button>
-            )}
-            <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
-              {cat.skills.map((s) => (
-                <li key={s.id} className="flex justify-between items-center py-1">
-                  <span>{s.name} ({s.level}%, {s.years})</span>
-                  <div className="flex gap-1">
-                    <Button variant="ghost" size="sm" onClick={() => { setEditingSkill(s); setSkillForm({ name: s.name, level: s.level, years: s.years }); }}>Edit</Button>
-                    <Button variant="ghost" size="sm" className="text-red-600" onClick={() => deleteSkill(s.id)}>Delete</Button>
+              {(editingSkill && cat.skills.some((s) => s.id === editingSkill.id)) || addingForCatId === cat.id ? (
+                <form onSubmit={saveSkill} className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded space-y-2">
+                  <Label>{editingSkill ? 'Edit skill' : 'New skill'}</Label>
+                  <Input placeholder="Skill name" value={skillForm.name} onChange={(e) => setSkillForm((f) => ({ ...f, name: e.target.value }))} required />
+                  <div className="flex gap-2">
+                    <Input type="number" min={0} max={100} value={skillForm.level} onChange={(e) => setSkillForm((f) => ({ ...f, level: Number(e.target.value) }))} />
+                    <Input placeholder="Years (e.g. 2+)" value={skillForm.years} onChange={(e) => setSkillForm((f) => ({ ...f, years: e.target.value }))} />
                   </div>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+                  <div className="flex gap-2">
+                    <Button type="submit">Save</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => { setEditingSkill(null); setAddingForCatId(null); setSkillForm({ name: '', level: 80, years: '1+' }); }}>Cancel</Button>
+                  </div>
+                </form>
+              ) : (
+                <Button size="sm" variant="outline" className="mb-2" onClick={() => { setAddingForCatId(cat.id); setSkillForm({ name: '', level: 80, years: '1+' }); }}>Add skill</Button>
+              )}
+              <SortableList items={cat.skills} onReorder={(ids) => reorderSkills(cat.id, ids)}>
+                {(s, skillDragHandle) => (
+                  <>
+                    {skillDragHandle}
+                    <span className="flex-1 text-sm text-gray-600 dark:text-gray-400">{s.name} ({s.level}%, {s.years})</span>
+                    <div className="flex gap-1">
+                      <Button variant="ghost" size="sm" onClick={() => { setEditingSkill(s); setSkillForm({ name: s.name, level: s.level, years: s.years }); }}>Edit</Button>
+                      <Button variant="ghost" size="sm" className="text-red-600" onClick={() => deleteSkill(s.id)}>Delete</Button>
+                    </div>
+                  </>
+                )}
+              </SortableList>
+            </div>
+          </>
+        )}
+      </SortableList>
     </div>
   );
 }
