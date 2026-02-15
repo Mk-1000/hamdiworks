@@ -227,7 +227,7 @@ export function Hero() {
             <div className="relative">
               <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-teal-500/20 shadow-2xl">
                 <ImageWithFallback
-                  src="/profile.png"
+                  src={`${import.meta.env.BASE_URL}profile.png`}
                   alt="Hamdi Mokni"
                   className="w-full h-full object-cover"
                 />
