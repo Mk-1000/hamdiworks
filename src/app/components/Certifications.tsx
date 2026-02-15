@@ -1,45 +1,17 @@
 import { motion } from 'motion/react';
 import { Award, Check } from 'lucide-react';
+import type { CertificationRow, AchievementRow } from '../../types/content';
 
-export function Certifications() {
-  const certifications = [
-    {
-      title: 'IBM DevOps Essentials',
-      issuer: 'IBM',
-      date: '2023',
-      description: 'Comprehensive understanding of DevOps practices, CI/CD, and automation',
-      skills: ['CI/CD', 'Jenkins', 'Docker', 'Kubernetes'],
-    },
-    {
-      title: 'Scrum Foundation Professional Certificate',
-      issuer: 'CertiProf',
-      date: '2023',
-      description: 'Certified in Agile methodologies and Scrum framework implementation',
-      skills: ['Scrum', 'Agile', 'Sprint Planning', 'Team Collaboration'],
-    },
-    {
-      title: 'Foundations of Web Programming',
-      issuer: 'Duke University',
-      date: '2022',
-      description: 'Advanced web development concepts and best practices',
-      skills: ['HTML5', 'CSS3', 'JavaScript', 'Web Standards'],
-    },
-    {
-      title: '.NET Core Professional',
-      issuer: 'Microsoft',
-      date: '2022',
-      description: 'Expert-level .NET Core development and architecture patterns',
-      skills: ['.NET Core', 'C#', 'ASP.NET', 'Entity Framework'],
-    },
-  ];
-
-  const achievements = [
-    'Published multiple open-source projects on GitHub',
-    'Speaker at local tech meetups on microservices',
-    'Contributed to .NET community projects',
-    'Built startup from idea to production with 1000+ users',
-    'Mentored 5+ junior developers',
-  ];
+export function Certifications({
+  certifications,
+  achievements,
+}: {
+  certifications?: CertificationRow[] | null;
+  achievements?: AchievementRow[] | null;
+}) {
+  const certs = certifications ?? [];
+  const achievementsList = achievements ?? [];
+  if (certs.length === 0 && achievementsList.length === 0) return null;
 
   return (
     <section id="certifications" className="py-20 bg-gray-50 dark:bg-gray-800">
@@ -62,9 +34,9 @@ export function Certifications() {
 
         {/* Certifications Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          {certifications.map((cert, index) => (
+          {certs.map((cert, index) => (
             <motion.div
-              key={index}
+              key={cert.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -95,7 +67,7 @@ export function Certifications() {
               </p>
 
               <div className="flex flex-wrap gap-2">
-                {cert.skills.map((skill, skillIndex) => (
+                {(Array.isArray(cert.skills) ? cert.skills : []).map((skill, skillIndex) => (
                   <span
                     key={skillIndex}
                     className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm"
@@ -120,9 +92,9 @@ export function Certifications() {
             Notable Achievements
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {achievements.map((achievement, index) => (
+            {achievementsList.map((achievement, index) => (
               <motion.div
-                key={index}
+                key={achievement.id}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -132,7 +104,7 @@ export function Certifications() {
                 <div className="flex-shrink-0 mt-1">
                   <Check className="w-5 h-5" />
                 </div>
-                <p className="text-lg">{achievement}</p>
+                <p className="text-lg">{achievement.text}</p>
               </motion.div>
             ))}
           </div>

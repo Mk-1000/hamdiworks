@@ -2,9 +2,12 @@ import { useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { Github, Linkedin, Mail, MapPin, Phone, Download, ArrowDown } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import type { HeroRow } from '../../types/content';
 
-export function Hero() {
+export function Hero({ hero }: { hero: HeroRow | null }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  if (!hero) return null;
+  const h = hero;
 
   // Animated gradient background with particles
   useEffect(() => {
@@ -123,7 +126,7 @@ export function Hero() {
                 Hello, I'm
               </h2>
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-4">
-                Hamdi Mokni
+                {h.name}
               </h1>
             </motion.div>
 
@@ -133,7 +136,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-2xl sm:text-3xl text-gray-700 dark:text-gray-300 mb-6"
             >
-              <TypewriterText text="Full-Stack .NET Engineer" />
+              <TypewriterText text={h.tagline} />
             </motion.div>
 
             <motion.p
@@ -142,7 +145,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="text-xl text-gray-600 dark:text-gray-400 mb-8"
             >
-              Building Scalable Solutions with Clean Architecture
+              {h.bio}
             </motion.p>
 
             {/* Location and Contact Info */}
@@ -152,18 +155,24 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="flex flex-wrap gap-4 justify-center lg:justify-start mb-8 text-gray-600 dark:text-gray-400"
             >
-              <div className="flex items-center gap-2">
-                <MapPin size={18} />
-                <span>Monastir, Tunisia</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail size={18} />
-                <span>hamdimokni712@gmail.com</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone size={18} />
-                <span>+216 50 430 778</span>
-              </div>
+              {h.location && (
+                <div className="flex items-center gap-2">
+                  <MapPin size={18} />
+                  <span>{h.location}</span>
+                </div>
+              )}
+              {h.email && (
+                <div className="flex items-center gap-2">
+                  <Mail size={18} />
+                  <span>{h.email}</span>
+                </div>
+              )}
+              {h.phone && (
+                <div className="flex items-center gap-2">
+                  <Phone size={18} />
+                  <span>{h.phone}</span>
+                </div>
+              )}
             </motion.div>
 
             {/* CTA Buttons */}
@@ -179,10 +188,15 @@ export function Hero() {
               >
                 View Projects
               </button>
-              <button className="px-8 py-3 border-2 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 hover:scale-105 transition-all duration-300 flex items-center gap-2">
+              <a
+                href={hero?.cv_url ?? '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-3 border-2 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 hover:scale-105 transition-all duration-300 flex items-center gap-2"
+              >
                 <Download size={20} />
                 Download Resume
-              </button>
+              </a>
             </motion.div>
 
             {/* Social Links */}
@@ -192,28 +206,34 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.7 }}
               className="flex gap-4 justify-center lg:justify-start"
             >
-              <a
-                href="https://github.com/Mk-1000"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110"
-              >
-                <Github size={24} />
-              </a>
-              <a
-                href="https://linkedin.com/in/mokni-hamdi712"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110"
-              >
-                <Linkedin size={24} />
-              </a>
-              <a
-                href="mailto:hamdimokni712@gmail.com"
-                className="p-3 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110"
-              >
-                <Mail size={24} />
-              </a>
+              {typeof h.social_links?.github === 'string' && (
+                <a
+                  href={h.social_links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110"
+                >
+                  <Github size={24} />
+                </a>
+              )}
+              {typeof h.social_links?.linkedin === 'string' && (
+                <a
+                  href={h.social_links.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110"
+                >
+                  <Linkedin size={24} />
+                </a>
+              )}
+              {(typeof h.social_links?.email === 'string' || h.email) && (
+                <a
+                  href={h.social_links?.email ?? `mailto:${h.email}`}
+                  className="p-3 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110"
+                >
+                  <Mail size={24} />
+                </a>
+              )}
             </motion.div>
           </div>
 
@@ -227,8 +247,8 @@ export function Hero() {
             <div className="relative flex justify-center items-center">
               <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-teal-500/20 shadow-2xl flex items-center justify-center bg-white dark:bg-gray-800">
                 <ImageWithFallback
-                  src={`${import.meta.env.BASE_URL}profile.png`}
-                  alt="Hamdi Mokni"
+                  src={hero?.image_url ?? `${import.meta.env.BASE_URL}profile.png`}
+                  alt={h.name}
                   className="w-full h-full object-cover object-center min-w-0 min-h-0 scale-100"
                 />
               </div>

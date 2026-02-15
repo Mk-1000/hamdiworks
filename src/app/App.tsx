@@ -10,10 +10,12 @@ import { Navigation } from './components/Navigation';
 import { ScrollProgress } from './components/ScrollProgress';
 import { ThemeProvider } from './components/ThemeProvider';
 import { LoadingScreen } from './components/LoadingScreen';
+import { useContent } from '../hooks/useContent';
 
 export default function App() {
   const [scrollY, setScrollY] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const { data: content, loading: contentLoading, error: contentError, isConfigured } = useContent();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,13 +43,46 @@ export default function App() {
         <Navigation scrollY={scrollY} />
         
         <main>
-          <Hero />
-          <About />
-          <Skills />
-          <Projects />
-          <Experience />
-          <Certifications />
-          <Contact />
+          {!isConfigured ? (
+            <div className="min-h-[60vh] flex items-center justify-center px-4">
+              <div className="text-center text-gray-600 dark:text-gray-400 max-w-md">
+                <p className="text-lg font-medium mb-2">Content loads from the database</p>
+                <p className="text-sm">Set <code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">VITE_SUPABASE_URL</code> and <code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">VITE_SUPABASE_ANON_KEY</code> in <code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">.env</code>, then restart the dev server.</p>
+              </div>
+            </div>
+          ) : contentLoading ? (
+            <div className="min-h-[60vh] flex items-center justify-center text-gray-500 dark:text-gray-400">
+              Loading...
+            </div>
+          ) : contentError ? (
+            <div className="min-h-[60vh] flex items-center justify-center px-4">
+              <div className="text-center text-red-600 dark:text-red-400 max-w-md">
+                <p className="font-medium">Could not load content</p>
+                <p className="text-sm mt-1">{contentError.message}</p>
+              </div>
+            </div>
+          ) : content ? (
+            <>
+              <Hero hero={content.hero ?? null} />
+              <About
+                aboutText={content.aboutText}
+                aboutHighlights={content.aboutHighlights}
+                aboutStats={content.aboutStats}
+              />
+              <Skills skillCategories={content.skillCategories} />
+              <Projects projects={content.projects} />
+              <Experience experiences={content.experiences} />
+              <Certifications
+                certifications={content.certifications}
+                achievements={content.achievements}
+              />
+              <Contact contactInfo={content.contactInfo} />
+            </>
+          ) : (
+            <div className="min-h-[60vh] flex items-center justify-center text-gray-500 dark:text-gray-400">
+              No content from database.
+            </div>
+          )}
         </main>
 
         <footer className="bg-gray-900 dark:bg-black text-white py-8">

@@ -1,69 +1,12 @@
 import { motion } from 'motion/react';
-import { Server, Code, Database, Container, Layers, Cloud } from 'lucide-react';
+import { Server, Code, Database, Container, Layers, Cloud, LucideIcon } from 'lucide-react';
+import type { SkillCategoryRow, SkillRow } from '../../types/content';
 
-export function Skills() {
-  const skillCategories = [
-    {
-      title: 'Backend Development',
-      icon: <Server className="w-6 h-6" />,
-      skills: [
-        { name: '.NET Core', level: 95, years: '3+' },
-        { name: 'Spring Boot', level: 80, years: '2+' },
-        { name: 'NestJS', level: 85, years: '2+' },
-        { name: 'RESTful APIs', level: 90, years: '3+' },
-      ],
-    },
-    {
-      title: 'Frontend Development',
-      icon: <Code className="w-6 h-6" />,
-      skills: [
-        { name: 'React', level: 85, years: '2+' },
-        { name: 'Flutter', level: 80, years: '2+' },
-        { name: 'Razor Pages', level: 75, years: '2+' },
-        { name: 'Vue.js', level: 70, years: '1+' },
-      ],
-    },
-    {
-      title: 'Databases',
-      icon: <Database className="w-6 h-6" />,
-      skills: [
-        { name: 'SQL Server', level: 90, years: '3+' },
-        { name: 'PostgreSQL', level: 85, years: '2+' },
-        { name: 'MongoDB', level: 80, years: '2+' },
-        { name: 'Redis', level: 75, years: '1+' },
-      ],
-    },
-    {
-      title: 'DevOps & Cloud',
-      icon: <Container className="w-6 h-6" />,
-      skills: [
-        { name: 'Docker', level: 90, years: '2+' },
-        { name: 'Kubernetes', level: 80, years: '1+' },
-        { name: 'CI/CD', level: 85, years: '2+' },
-        { name: 'GCP', level: 75, years: '1+' },
-      ],
-    },
-    {
-      title: 'Architecture',
-      icon: <Layers className="w-6 h-6" />,
-      skills: [
-        { name: 'Clean Architecture', level: 95, years: '3+' },
-        { name: 'DDD', level: 85, years: '2+' },
-        { name: 'Microservices', level: 90, years: '2+' },
-        { name: 'CQRS', level: 80, years: '2+' },
-      ],
-    },
-    {
-      title: 'Other Technologies',
-      icon: <Cloud className="w-6 h-6" />,
-      skills: [
-        { name: 'Git', level: 90, years: '3+' },
-        { name: 'GraphQL', level: 75, years: '1+' },
-        { name: 'WebSocket', level: 80, years: '2+' },
-        { name: 'RabbitMQ', level: 75, years: '1+' },
-      ],
-    },
-  ];
+const ICON_MAP: Record<string, LucideIcon> = { Server, Code, Database, Container, Layers, Cloud };
+
+export function Skills({ skillCategories }: { skillCategories?: (SkillCategoryRow & { skills: SkillRow[] })[] | null }) {
+  if (!skillCategories?.length) return null;
+  const categories = skillCategories;
 
   return (
     <section id="skills" className="py-20 bg-white dark:bg-gray-900">
@@ -85,35 +28,38 @@ export function Skills() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skillCategories.map((category, categoryIndex) => (
-            <motion.div
-              key={categoryIndex}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
-              className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-xl transition-all duration-300"
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-lg">
-                  {category.icon}
+          {categories.map((category, categoryIndex) => {
+            const Icon = ICON_MAP[category.icon_name] ?? Server;
+            return (
+              <motion.div
+                key={category.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
+                className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-xl transition-all duration-300"
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-lg">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                    {category.title}
+                  </h3>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  {category.title}
-                </h3>
-              </div>
 
-              <div className="space-y-4">
-                {category.skills.map((skill, skillIndex) => (
-                  <SkillBar
-                    key={skillIndex}
-                    skill={skill}
-                    delay={categoryIndex * 0.1 + skillIndex * 0.05}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          ))}
+                <div className="space-y-4">
+                  {category.skills.map((skill, skillIndex) => (
+                    <SkillBar
+                      key={skill.id}
+                      skill={{ name: skill.name, level: skill.level, years: skill.years }}
+                      delay={categoryIndex * 0.1 + skillIndex * 0.05}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Additional Skills Cloud */}

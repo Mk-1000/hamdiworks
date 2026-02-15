@@ -1,61 +1,9 @@
 import { motion } from 'motion/react';
 import { Briefcase, Calendar } from 'lucide-react';
+import type { ExperienceRow } from '../../types/content';
 
-export function Experience() {
-  const experiences = [
-    {
-      company: 'Tech Company A',
-      role: 'Senior Full-Stack .NET Engineer',
-      period: '2024 - Present',
-      location: 'Remote',
-      achievements: [
-        'Led migration of monolithic application to microservices architecture',
-        'Reduced deployment time by 60% through containerization with Docker',
-        'Mentored junior developers in Clean Architecture principles',
-        'Implemented CI/CD pipelines improving release frequency',
-      ],
-      technologies: ['.NET Core', 'Docker', 'Kubernetes', 'Azure', 'React'],
-    },
-    {
-      company: 'Football KickOff (Startup)',
-      role: 'Full-Stack Developer & Co-Founder',
-      period: '2023 - Present',
-      location: 'Monastir, Tunisia',
-      achievements: [
-        'Built SaaS platform from scratch serving 1000+ users',
-        'Implemented real-time messaging with WebSocket',
-        'Designed scalable microservices architecture on GCP',
-        'Reduced server costs by 40% through optimization',
-      ],
-      technologies: ['NestJS', 'MongoDB', 'Docker', 'GCP', 'WebSocket'],
-    },
-    {
-      company: 'Digital Solutions Inc.',
-      role: 'Full-Stack Developer',
-      period: '2022 - 2023',
-      location: 'Tunisia',
-      achievements: [
-        'Developed healthcare platform with AI diagnostic features',
-        'Integrated machine learning models for symptom analysis',
-        'Built responsive admin dashboards with Vue.js',
-        'Optimized database queries improving performance by 50%',
-      ],
-      technologies: ['Symfony', 'Flask', 'Vue.js', 'PostgreSQL', 'ML'],
-    },
-    {
-      company: 'Mobile Dev Studio',
-      role: 'Mobile Application Developer',
-      period: '2021 - 2022',
-      location: 'Tunisia',
-      achievements: [
-        'Created cross-platform e-commerce mobile app with Flutter',
-        'Integrated payment gateways including Google Pay',
-        'Implemented offline-first architecture with local storage',
-        'Published apps with 4.5+ star ratings on app stores',
-      ],
-      technologies: ['Flutter', 'Firebase', 'REST API', 'Google Pay'],
-    },
-  ];
+export function Experience({ experiences }: { experiences?: ExperienceRow[] | null }) {
+  if (!experiences?.length) return null;
 
   return (
     <section id="experience" className="py-20 bg-white dark:bg-gray-900">
@@ -92,7 +40,7 @@ export function Experience() {
   );
 }
 
-function TimelineItem({ experience, index }: { experience: any; index: number }) {
+function TimelineItem({ experience, index }: { experience: ExperienceRow; index: number }) {
   const isLeft = index % 2 === 0;
 
   return (
@@ -135,7 +83,7 @@ function TimelineItem({ experience, index }: { experience: any; index: number })
 
           {/* Achievements */}
           <ul className="space-y-2 mb-4">
-            {experience.achievements.map((achievement: string, achIndex: number) => (
+            {(Array.isArray(experience.achievements) ? experience.achievements : []).map((achievement: string, achIndex: number) => (
               <li
                 key={achIndex}
                 className="flex items-start gap-2 text-gray-700 dark:text-gray-300"
@@ -148,7 +96,7 @@ function TimelineItem({ experience, index }: { experience: any; index: number })
 
           {/* Technologies */}
           <div className="flex flex-wrap gap-2">
-            {experience.technologies.map((tech: string, techIndex: number) => (
+            {(Array.isArray(experience.technologies) ? experience.technologies : []).map((tech: string, techIndex: number) => (
               <span
                 key={techIndex}
                 className="px-3 py-1 bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 rounded-full text-sm"

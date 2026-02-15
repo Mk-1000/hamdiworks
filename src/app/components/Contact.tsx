@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, Phone, MapPin, Send, Github, Linkedin } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Github, Linkedin, LucideIcon } from 'lucide-react';
+import type { ContactInfoRow } from '../../types/content';
 
-export function Contact() {
+const CONTACT_ICON_MAP: Record<string, LucideIcon> = { email: Mail, phone: Phone, location: MapPin };
+
+export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null }) {
+  const contactInfoRows = contactInfo ?? [];
+  if (contactInfoRows.length === 0) return null;
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -73,27 +78,6 @@ export function Contact() {
     }
   };
 
-  const contactInfo = [
-    {
-      icon: <Mail className="w-6 h-6" />,
-      title: 'Email',
-      value: 'hamdimokni712@gmail.com',
-      link: 'mailto:hamdimokni712@gmail.com',
-    },
-    {
-      icon: <Phone className="w-6 h-6" />,
-      title: 'Phone',
-      value: '+216 50 430 778',
-      link: 'tel:+21650430778',
-    },
-    {
-      icon: <MapPin className="w-6 h-6" />,
-      title: 'Location',
-      value: 'Monastir, Tunisia',
-      link: null,
-    },
-  ];
-
   return (
     <section id="contact" className="py-20 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -130,35 +114,38 @@ export function Contact() {
             </p>
 
             <div className="space-y-6 mb-8">
-              {contactInfo.map((info, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="flex items-start gap-4"
-                >
-                  <div className="p-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-lg">
-                    {info.icon}
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
-                      {info.title}
-                    </h4>
-                    {info.link ? (
-                      <a
-                        href={info.link}
-                        className="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
-                      >
-                        {info.value}
-                      </a>
-                    ) : (
-                      <p className="text-gray-600 dark:text-gray-400">{info.value}</p>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
+              {contactInfoRows.map((info, index) => {
+                const Icon = CONTACT_ICON_MAP[info.type] ?? Mail;
+                return (
+                  <motion.div
+                    key={info.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="flex items-start gap-4"
+                  >
+                    <div className="p-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-lg">
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
+                        {info.label}
+                      </h4>
+                      {info.link ? (
+                        <a
+                          href={info.link}
+                          className="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+                        >
+                          {info.value}
+                        </a>
+                      ) : (
+                        <p className="text-gray-600 dark:text-gray-400">{info.value}</p>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
 
             {/* Social Links */}
