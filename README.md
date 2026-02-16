@@ -251,13 +251,6 @@ To convert this into a PWA:
 
 This project is open source and available for personal and commercial use.
 
-## 🤝 Support
-
-For questions or issues:
-- Email: hamdimokni712@gmail.com
-- GitHub: [@Mk-1000](https://github.com/Mk-1000)
-- LinkedIn: [mokni-hamdi712](https://linkedin.com/in/mokni-hamdi712)
-
 ## 🎨 Credits
 
 - Icons: [Lucide Icons](https://lucide.dev)
@@ -268,4 +261,4 @@ For questions or issues:
 
 ---
 
-Made with ❤️ by Hamdi Mokni
+Built with React, Tailwind CSS, and Supabase.

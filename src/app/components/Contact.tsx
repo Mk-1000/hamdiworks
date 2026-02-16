@@ -1,13 +1,26 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, Send, Github, Linkedin, LucideIcon } from 'lucide-react';
-import type { ContactInfoRow } from '../../types/content';
+import type { ContactInfoRow, HeroRow } from '../../types/content';
 
 const CONTACT_ICON_MAP: Record<string, LucideIcon> = { email: Mail, phone: Phone, location: MapPin };
 
-export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null }) {
+export function Contact({
+  contactInfo,
+  hero = null,
+}: {
+  contactInfo?: ContactInfoRow[] | null;
+  hero?: HeroRow | null;
+}) {
   const contactInfoRows = contactInfo ?? [];
-  if (contactInfoRows.length === 0) return null;
+  const socialLinks = hero?.social_links as { github?: string; linkedin?: string; email?: string } | undefined;
+  const heroEmail = hero?.email;
+  const hasSocial =
+    (typeof socialLinks?.github === 'string' && socialLinks.github) ||
+    (typeof socialLinks?.linkedin === 'string' && socialLinks.linkedin) ||
+    (typeof socialLinks?.email === 'string' && socialLinks.email) ||
+    (typeof heroEmail === 'string' && heroEmail);
+  if (contactInfoRows.length === 0 && !hasSocial) return null;
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -171,36 +184,47 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
               })}
             </div>
 
-            {/* Social Links */}
-            <div>
-              <h4 className="font-semibold text-foreground mb-4">
-                Connect with me
-              </h4>
-              <div className="flex gap-4">
-                <a
-                  href="https://github.com/Mk-1000"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 bg-muted rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
-                >
-                  <Github size={24} />
-                </a>
-                <a
-                  href="https://linkedin.com/in/mokni-hamdi712"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 bg-muted rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
-                >
-                  <Linkedin size={24} />
-                </a>
-                <a
-                  href="mailto:hamdimokni712@gmail.com"
-                  className="p-3 bg-muted rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
-                >
-                  <Mail size={24} />
-                </a>
+            {/* Social Links (from hero / DB) */}
+            {hasSocial && (
+              <div>
+                <h4 className="font-semibold text-foreground mb-4">
+                  Connect with me
+                </h4>
+                <div className="flex gap-4">
+                  {typeof socialLinks?.github === 'string' && socialLinks.github && (
+                    <a
+                      href={socialLinks.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-muted rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
+                      aria-label="GitHub"
+                    >
+                      <Github size={24} />
+                    </a>
+                  )}
+                  {typeof socialLinks?.linkedin === 'string' && socialLinks.linkedin && (
+                    <a
+                      href={socialLinks.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-muted rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
+                      aria-label="LinkedIn"
+                    >
+                      <Linkedin size={24} />
+                    </a>
+                  )}
+                  {(typeof socialLinks?.email === 'string' || (typeof heroEmail === 'string' && heroEmail)) && (
+                    <a
+                      href={typeof socialLinks?.email === 'string' ? socialLinks.email : `mailto:${heroEmail}`}
+                      className="p-3 bg-muted rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
+                      aria-label="Email"
+                    >
+                      <Mail size={24} />
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
 
           </motion.div>
 

@@ -26,7 +26,7 @@ Go to [supabase.com](https://supabase.com) → your project (or create one).
 1. Go to **Authentication** → **Users**.
 2. Click **Add user** → **Create new user**.
 3. Enter **Email** and **Password**, then **Create user**.
-4. Use this email and password to sign in at your app’s `/admin/login` (e.g. `http://localhost:5173/hamdiworks/admin/login`).
+4. Use this email and password to sign in at your app’s `/admin/login` (e.g. `http://localhost:5173/admin/login`).
 
 ## 5. Env vars
 

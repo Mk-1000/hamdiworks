@@ -114,7 +114,7 @@ export default function App() {
                 certifications={content.certifications}
                 achievements={content.achievements}
               />
-              <Contact contactInfo={content.contactInfo} />
+              <Contact contactInfo={content.contactInfo} hero={content.hero ?? null} />
             </>
           ) : (
             <div className="min-h-[60vh] flex items-center justify-center text-muted-foreground">
