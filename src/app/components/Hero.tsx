@@ -201,15 +201,18 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
               >
                 View Projects
               </button>
-              <a
-                href={hero?.cv_url ?? '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-3 border-2 border-border text-foreground rounded-lg font-semibold hover:bg-muted hover:scale-105 transition-all duration-300 flex items-center gap-2"
-              >
-                <Download size={20} />
-                Download Resume
-              </a>
+              {hero?.cv_url && (
+                <a
+                  href={hero.cv_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download="resume.pdf"
+                  className="px-8 py-3 border-2 border-border text-foreground rounded-lg font-semibold hover:bg-muted hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                >
+                  <Download size={20} />
+                  Download Resume
+                </a>
+              )}
             </motion.div>
 
             {/* Social Links */}

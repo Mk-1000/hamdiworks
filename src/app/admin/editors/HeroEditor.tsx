@@ -4,6 +4,7 @@ import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { ImageUploadField } from '../components/ImageUploadField';
+import { ResumeUploadField } from '../components/ResumeUploadField';
 import type { HeroRow } from '../../../types/content';
 
 export function HeroEditor() {
@@ -102,10 +103,12 @@ export function HeroEditor() {
           <Label>Phone</Label>
           <Input value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} />
         </div>
-        <div>
-          <Label>CV URL</Label>
-          <Input value={form.cv_url} onChange={(e) => setForm((f) => ({ ...f, cv_url: e.target.value }))} placeholder="https://..." />
-        </div>
+        <ResumeUploadField
+          label="Resume / CV (PDF)"
+          value={form.cv_url}
+          onChange={(url) => setForm((f) => ({ ...f, cv_url: url }))}
+          storagePath="hero/resume"
+        />
         <ImageUploadField
           label="Profile image"
           value={form.image_url}

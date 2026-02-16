@@ -53,18 +53,41 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
       return;
     }
 
-    setIsSubmitting(true);
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey || typeof accessKey !== 'string') {
+      setErrors({ form: 'Contact form is not configured. Set VITE_WEB3FORMS_ACCESS_KEY in .env.' });
+      return;
+    }
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setIsSubmitting(true);
+    setErrors((prev) => ({ ...prev, form: '' }));
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          subject: formData.subject.trim(),
+          message: formData.message.trim(),
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || !data?.success) {
+        setErrors({ form: data?.message ?? 'Failed to send. Please try again or email directly.' });
+        return;
+      }
       setSubmitSuccess(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      setTimeout(() => {
-        setSubmitSuccess(false);
-      }, 5000);
-    }, 1500);
+      setTimeout(() => setSubmitSuccess(false), 5000);
+    } catch (err) {
+      setErrors({ form: 'Network error. Please try again or email directly.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -201,6 +224,9 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
             transition={{ duration: 0.5 }}
           >
             <form onSubmit={handleSubmit} className="space-y-6">
+              {errors.form && (
+                <p className="text-sm text-destructive">{errors.form}</p>
+              )}
               {/* Name */}
               <div>
                 <label
