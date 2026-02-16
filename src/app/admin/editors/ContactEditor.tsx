@@ -57,16 +57,16 @@ export function ContactEditor() {
     await load();
   };
 
-  if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading...</div>;
+  if (loading) return <div className="text-muted-foreground">Loading...</div>;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Contact</h1>
+      <h1 className="text-2xl font-bold text-foreground mb-6">Contact</h1>
       {editingId ? (
         <form onSubmit={handleSave} className="space-y-4 max-w-xl mb-8">
           <div>
             <Label>Type</Label>
-            <select className="w-full border rounded px-3 py-2 dark:bg-gray-800 dark:border-gray-700" value={form.type} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))}>
+            <select className="w-full border border-border rounded px-3 py-2 bg-background" value={form.type} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))}>
               {TYPE_OPTIONS.map((o) => <option key={o} value={o}>{o}</option>)}
             </select>
           </div>

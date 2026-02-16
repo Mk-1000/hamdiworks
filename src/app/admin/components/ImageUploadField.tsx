@@ -50,7 +50,7 @@ export function ImageUploadField({
       <Label>{label}</Label>
       {value ? (
         <div className="flex flex-col gap-2">
-          <div className="w-32 h-32 rounded overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800">
+          <div className="w-32 h-32 rounded overflow-hidden border border-border bg-muted">
             <img
               src={value}
               alt="Preview"

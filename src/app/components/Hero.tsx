@@ -123,7 +123,7 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
       />
       
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-teal-500/10 via-emerald-500/10 to-teal-600/10 dark:from-teal-500/5 dark:via-emerald-500/5 dark:to-teal-600/5" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/10 to-primary/10 dark:from-primary/5 dark:via-primary/5 dark:to-primary/5" />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
@@ -135,10 +135,10 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h2 className="text-lg sm:text-xl text-teal-600 dark:text-teal-400 mb-4">
+              <h2 className="text-lg sm:text-xl text-primary mb-4">
                 Hello, I'm
               </h2>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-4">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-4">
                 {h.name}
               </h1>
             </motion.div>
@@ -147,7 +147,7 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-2xl sm:text-3xl text-gray-700 dark:text-gray-300 mb-6"
+              className="text-2xl sm:text-3xl text-foreground mb-6"
             >
               <TypewriterText text={h.tagline} />
             </motion.div>
@@ -156,7 +156,7 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="text-xl text-gray-600 dark:text-gray-400 mb-8"
+              className="text-xl text-muted-foreground mb-8"
             >
               {h.bio}
             </motion.p>
@@ -166,7 +166,7 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="flex flex-wrap gap-4 justify-center lg:justify-start mb-8 text-gray-600 dark:text-gray-400"
+              className="flex flex-wrap gap-4 justify-center lg:justify-start mb-8 text-muted-foreground"
             >
               {h.location && (
                 <div className="flex items-center gap-2">
@@ -197,7 +197,7 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
             >
               <button
                 onClick={scrollToProjects}
-                className="px-8 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
+                className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
               >
                 View Projects
               </button>
@@ -205,7 +205,7 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
                 href={hero?.cv_url ?? '#'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-3 border-2 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                className="px-8 py-3 border-2 border-border text-foreground rounded-lg font-semibold hover:bg-muted hover:scale-105 transition-all duration-300 flex items-center gap-2"
               >
                 <Download size={20} />
                 Download Resume
@@ -224,7 +224,7 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
                   href={h.social_links.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110"
+                  className="p-3 bg-muted rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
                 >
                   <Github size={24} />
                 </a>
@@ -234,7 +234,7 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
                   href={h.social_links.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110"
+                  className="p-3 bg-muted rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
                 >
                   <Linkedin size={24} />
                 </a>
@@ -242,7 +242,7 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
               {(typeof h.social_links?.email === 'string' || h.email) && (
                 <a
                   href={h.social_links?.email ?? `mailto:${h.email}`}
-                  className="p-3 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110"
+                  className="p-3 bg-muted rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
                 >
                   <Mail size={24} />
                 </a>
@@ -258,7 +258,7 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
             className="relative flex justify-center lg:justify-end"
           >
             <div className="relative flex justify-center items-center">
-              <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-teal-500/20 shadow-2xl flex items-center justify-center bg-white dark:bg-gray-800">
+              <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-border shadow-2xl flex items-center justify-center bg-muted">
                 {hero?.image_url ? (
                   <ImageWithFallback
                     src={hero.image_url}
@@ -267,7 +267,7 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
                     loading="eager"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-4xl font-bold">
+                  <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground text-4xl font-bold">
                     {h.name
                       .split(/\s+/)
                       .map((w) => w[0])
@@ -305,7 +305,7 @@ export function Hero({ hero }: { hero: HeroRow | null }) {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
-            className="text-gray-600 dark:text-gray-400"
+            className="text-muted-foreground"
           >
             <ArrowDown size={32} />
           </motion.div>
@@ -355,7 +355,7 @@ function FloatingIcon({ children, delay, position }: { children: React.ReactNode
 // Tech icon component
 function TechIcon({ children }: { children: React.ReactNode }) {
   return (
-    <div className="px-4 py-2 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-lg shadow-lg font-semibold text-sm">
+    <div className="px-4 py-2 bg-primary text-primary-foreground rounded-lg shadow-lg font-semibold text-sm">
       {children}
     </div>
   );

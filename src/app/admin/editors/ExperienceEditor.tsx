@@ -71,18 +71,18 @@ export function ExperienceEditor() {
     await load();
   };
 
-  if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading...</div>;
+  if (loading) return <div className="text-muted-foreground">Loading...</div>;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Experience</h1>
+      <h1 className="text-2xl font-bold text-foreground mb-6">Experience</h1>
       {editingId ? (
         <form onSubmit={handleSave} className="space-y-4 max-w-xl mb-8">
           <div><Label>Company</Label><Input value={form.company} onChange={(e) => setForm((f) => ({ ...f, company: e.target.value }))} required /></div>
           <div><Label>Role</Label><Input value={form.role} onChange={(e) => setForm((f) => ({ ...f, role: e.target.value }))} required /></div>
           <div><Label>Period</Label><Input value={form.period} onChange={(e) => setForm((f) => ({ ...f, period: e.target.value }))} placeholder="2022 - 2023" /></div>
           <div><Label>Location</Label><Input value={form.location} onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))} /></div>
-          <div><Label>Achievements (one per line)</Label><textarea className="w-full border rounded px-3 py-2 min-h-[100px] dark:bg-gray-800 dark:border-gray-700" value={form.achievements} onChange={(e) => setForm((f) => ({ ...f, achievements: e.target.value }))} /></div>
+          <div><Label>Achievements (one per line)</Label><textarea className="w-full border border-border rounded px-3 py-2 min-h-[100px] bg-background" value={form.achievements} onChange={(e) => setForm((f) => ({ ...f, achievements: e.target.value }))} /></div>
           <div><Label>Technologies (comma-separated)</Label><Input value={form.technologies} onChange={(e) => setForm((f) => ({ ...f, technologies: e.target.value }))} /></div>
           <div className="flex gap-2">
             <Button type="submit">Save</Button>

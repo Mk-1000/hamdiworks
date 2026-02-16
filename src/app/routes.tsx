@@ -12,10 +12,11 @@ const ProjectsEditor = lazy(() => import('./admin/editors/ProjectsEditor').then(
 const ExperienceEditor = lazy(() => import('./admin/editors/ExperienceEditor').then((m) => ({ default: m.ExperienceEditor })));
 const CertificationsEditor = lazy(() => import('./admin/editors/CertificationsEditor').then((m) => ({ default: m.CertificationsEditor })));
 const ContactEditor = lazy(() => import('./admin/editors/ContactEditor').then((m) => ({ default: m.ContactEditor })));
+const PlatformEditor = lazy(() => import('./admin/editors/PlatformEditor').then((m) => ({ default: m.PlatformEditor })));
 
 function AdminFallback() {
   return (
-    <div className="min-h-screen flex items-center justify-center text-gray-500 dark:text-gray-400">
+    <div className="min-h-screen flex items-center justify-center text-muted-foreground">
       Loading admin…
     </div>
   );
@@ -39,6 +40,7 @@ export const router = createBrowserRouter(
       ),
       children: [
         { index: true, element: <Navigate to="hero" replace /> },
+        { path: 'platform', element: <PlatformEditor /> },
         { path: 'hero', element: <HeroEditor /> },
         { path: 'about', element: <AboutEditor /> },
         { path: 'skills', element: <SkillsEditor /> },

@@ -77,16 +77,16 @@ export function CertificationsEditor() {
     await load();
   };
 
-  if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading...</div>;
+  if (loading) return <div className="text-muted-foreground">Loading...</div>;
 
   return (
     <div className="space-y-10">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Certifications & Achievements</h1>
+      <h1 className="text-2xl font-bold text-foreground">Certifications & Achievements</h1>
 
       <div>
         <h2 className="text-lg font-semibold mb-4">Certifications</h2>
         {editingCertId && (
-          <form onSubmit={saveCert} className="space-y-4 max-w-xl mb-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <form onSubmit={saveCert} className="space-y-4 max-w-xl mb-4 p-4 border border-border rounded-lg">
             <div><Label>Title</Label><Input value={certForm.title} onChange={(e) => setCertForm((f) => ({ ...f, title: e.target.value }))} required /></div>
             <div><Label>Issuer</Label><Input value={certForm.issuer} onChange={(e) => setCertForm((f) => ({ ...f, issuer: e.target.value }))} required /></div>
             <div><Label>Date</Label><Input value={certForm.date} onChange={(e) => setCertForm((f) => ({ ...f, date: e.target.value }))} /></div>
@@ -116,7 +116,7 @@ export function CertificationsEditor() {
       <div>
         <h2 className="text-lg font-semibold mb-4">Notable achievements (bullets)</h2>
         {editingAchId && (
-          <form onSubmit={saveAch} className="space-y-4 max-w-xl mb-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <form onSubmit={saveAch} className="space-y-4 max-w-xl mb-4 p-4 border border-border rounded-lg">
             <div><Label>Text</Label><Input value={achForm.text} onChange={(e) => setAchForm({ text: e.target.value })} required /></div>
             <div className="flex gap-2">
               <Button type="submit">Save</Button>

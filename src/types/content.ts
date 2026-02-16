@@ -97,6 +97,34 @@ export interface ContactInfoRow {
   sort_order: number;
 }
 
+/** Platform color overrides (CSS values: hex or oklch). Keys match theme.css variables without the -- prefix. */
+export interface PlatformColors {
+  background?: string;
+  foreground?: string;
+  primary?: string;
+  primaryForeground?: string;
+  secondary?: string;
+  secondaryForeground?: string;
+  accent?: string;
+  accentForeground?: string;
+  muted?: string;
+  mutedForeground?: string;
+  border?: string;
+  [key: string]: string | undefined;
+}
+
+export interface PlatformSettingsRow {
+  id: string;
+  platform_name: string;
+  favicon_url: string | null;
+  logo_header_url: string | null;
+  logo_footer_url: string | null;
+  colors: PlatformColors;
+  colors_dark?: PlatformColors;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface ContentData {
   hero: HeroRow | null;
   aboutText: AboutTextRow[];

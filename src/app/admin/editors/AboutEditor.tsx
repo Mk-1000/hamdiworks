@@ -102,11 +102,11 @@ export function AboutEditor() {
     await load();
   };
 
-  if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading...</div>;
+  if (loading) return <div className="text-muted-foreground">Loading...</div>;
 
   return (
     <div className="space-y-10">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">About</h1>
+      <h1 className="text-2xl font-bold text-foreground">About</h1>
 
       <form onSubmit={saveText} className="space-y-4 max-w-xl">
         <h2 className="text-lg font-semibold">Section text</h2>
@@ -125,7 +125,7 @@ export function AboutEditor() {
           <form onSubmit={saveHighlight} className="space-y-4 max-w-xl mb-4">
             <div>
               <Label>Icon</Label>
-              <select className="w-full border rounded px-3 py-2 dark:bg-gray-800 dark:border-gray-700" value={highlightForm.icon_name} onChange={(e) => setHighlightForm((f) => ({ ...f, icon_name: e.target.value }))}>
+              <select className="w-full border border-border rounded px-3 py-2 bg-background" value={highlightForm.icon_name} onChange={(e) => setHighlightForm((f) => ({ ...f, icon_name: e.target.value }))}>
                 {ICON_OPTIONS.map((o) => <option key={o} value={o}>{o}</option>)}
               </select>
             </div>

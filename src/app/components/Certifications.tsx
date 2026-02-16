@@ -14,7 +14,7 @@ export function Certifications({
   if (certs.length === 0 && achievementsList.length === 0) return null;
 
   return (
-    <section id="certifications" className="py-20 bg-gray-50 dark:bg-gray-800">
+    <section id="certifications" className="py-20 bg-muted/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -23,11 +23,11 @@ export function Certifications({
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
             Certifications & Achievements
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-teal-600 to-emerald-600 mx-auto mb-6" />
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <div className="w-20 h-1 bg-primary mx-auto mb-6" />
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Professional certifications and notable accomplishments
           </p>
         </motion.div>
@@ -42,27 +42,27 @@ export function Certifications({
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.03, rotateY: 5 }}
-              className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300"
+              className="bg-muted rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300"
               style={{ transformStyle: 'preserve-3d' }}
             >
               <div className="flex items-start gap-4 mb-4">
-                <div className="p-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-lg">
+                <div className="p-3 bg-primary text-primary-foreground rounded-lg">
                   <Award className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                  <h3 className="text-xl font-bold text-foreground mb-1">
                     {cert.title}
                   </h3>
-                  <p className="text-teal-600 dark:text-teal-400 font-semibold">
+                  <p className="text-primary font-semibold">
                     {cert.issuer}
                   </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-muted-foreground">
                     {cert.date}
                   </p>
                 </div>
               </div>
 
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
+              <p className="text-muted-foreground mb-4">
                 {cert.description}
               </p>
 
@@ -70,7 +70,7 @@ export function Certifications({
                 {(Array.isArray(cert.skills) ? cert.skills : []).map((skill, skillIndex) => (
                   <span
                     key={skillIndex}
-                    className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm"
+                    className="px-3 py-1 bg-muted text-foreground rounded-full text-sm"
                   >
                     {skill}
                   </span>
@@ -86,7 +86,7 @@ export function Certifications({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="bg-gradient-to-r from-teal-600 to-emerald-600 rounded-xl p-8 md:p-12"
+          className="bg-primary rounded-xl p-8 md:p-12"
         >
           <h3 className="text-3xl font-bold text-white text-center mb-8">
             Notable Achievements

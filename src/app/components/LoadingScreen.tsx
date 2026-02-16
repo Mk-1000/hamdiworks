@@ -13,7 +13,7 @@ export function LoadingScreen({ visible }: LoadingScreenProps) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-teal-600 to-emerald-600"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-primary"
         >
           <div className="text-center">
             {/* Animated Logo */}
@@ -23,8 +23,8 @@ export function LoadingScreen({ visible }: LoadingScreenProps) {
               transition={{ duration: 0.5, type: 'spring' }}
               className="mb-8"
             >
-              <div className="w-24 h-24 mx-auto bg-white rounded-full flex items-center justify-center">
-                <span className="text-4xl font-bold text-transparent bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text">
+              <div className="w-24 h-24 mx-auto bg-primary-foreground rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-4xl font-bold text-primary tracking-tighter">
                   HM
                 </span>
               </div>
@@ -34,7 +34,7 @@ export function LoadingScreen({ visible }: LoadingScreenProps) {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-              className="w-12 h-12 border-4 border-white border-t-transparent rounded-full mx-auto mb-4"
+              className="w-12 h-12 border-4 border-primary-foreground border-t-transparent rounded-full mx-auto mb-4"
             />
 
             {/* Loading Text */}
@@ -42,7 +42,7 @@ export function LoadingScreen({ visible }: LoadingScreenProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="text-white text-lg"
+              className="text-primary-foreground text-lg"
             >
               Loading Portfolio...
             </motion.p>

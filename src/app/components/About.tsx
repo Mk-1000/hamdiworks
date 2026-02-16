@@ -28,7 +28,7 @@ export function About({
   if (!sectionTitle && !heading && !p1 && !p2 && !p3 && highlights.length === 0 && stats.length === 0) return null;
 
   return (
-    <section id="about" className="py-20 bg-gray-50 dark:bg-gray-800">
+    <section id="about" className="py-20 bg-muted/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -38,11 +38,11 @@ export function About({
           className="text-center mb-16"
         >
           {sectionTitle && (
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
               {sectionTitle}
             </h2>
           )}
-          <div className="w-20 h-1 bg-gradient-to-r from-teal-600 to-emerald-600 mx-auto" />
+          <div className="w-20 h-1 bg-primary mx-auto" />
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -52,10 +52,10 @@ export function About({
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            {heading && <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">{heading}</h3>}
-            {p1 && <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">{p1}</p>}
-            {p2 && <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">{p2}</p>}
-            {p3 && <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">{p3}</p>}
+            {heading && <h3 className="text-3xl font-bold text-foreground mb-6">{heading}</h3>}
+            {p1 && <p className="text-lg text-muted-foreground mb-4">{p1}</p>}
+            {p2 && <p className="text-lg text-muted-foreground mb-4">{p2}</p>}
+            {p3 && <p className="text-lg text-muted-foreground mb-4">{p3}</p>}
           </motion.div>
 
           <motion.div
@@ -75,15 +75,15 @@ export function About({
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={{ scale: 1.05 }}
-                  className="p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="p-6 bg-muted rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  <div className="text-teal-600 dark:text-teal-400 mb-4">
+                  <div className="text-primary mb-4">
                     <Icon className="w-8 h-8" />
                   </div>
-                  <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  <h4 className="text-xl font-semibold text-foreground mb-2">
                     {highlight.title}
                   </h4>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-muted-foreground">
                     {highlight.description}
                   </p>
                 </motion.div>
@@ -112,12 +112,12 @@ function StatCard({ number, label }: { number: string; label: string }) {
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
-      className="text-center p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg"
+      className="text-center p-6 bg-muted rounded-xl shadow-lg"
     >
-      <div className="text-4xl font-bold text-transparent bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text mb-2">
+      <div className="text-4xl font-bold text-primary mb-2">
         {number}
       </div>
-      <div className="text-gray-600 dark:text-gray-400">{label}</div>
+      <div className="text-muted-foreground">{label}</div>
     </motion.div>
   );
 }

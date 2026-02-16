@@ -7,7 +7,7 @@ export function Projects({ projects }: { projects?: ProjectRow[] | null }) {
   if (!projects?.length) return null;
 
   return (
-    <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-800">
+    <section id="projects" className="py-20 bg-muted/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -16,11 +16,11 @@ export function Projects({ projects }: { projects?: ProjectRow[] | null }) {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
             Featured Projects
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-teal-600 to-emerald-600 mx-auto mb-6" />
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <div className="w-20 h-1 bg-primary mx-auto mb-6" />
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             A showcase of my recent work and technical achievements
           </p>
         </motion.div>
@@ -45,7 +45,7 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -10 }}
-      className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group"
+      className="bg-muted rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group"
     >
       {/* Project Image */}
       <div className="relative h-64 overflow-hidden">
@@ -61,7 +61,7 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+            <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground">
               <span className="text-6xl font-bold opacity-50">{project.title[0]?.toUpperCase() ?? '?'}</span>
             </div>
           )}
@@ -75,9 +75,9 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
               href={project.github_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 bg-white/90 dark:bg-gray-900/90 rounded-full hover:bg-white dark:hover:bg-gray-900 transition-colors"
+              className="p-2 bg-background/90 rounded-full hover:bg-background transition-colors"
             >
-              <Github className="w-5 h-5 text-gray-900 dark:text-white" />
+              <Github className="w-5 h-5 text-foreground" />
             </a>
           )}
           {project.demo_url && (
@@ -85,9 +85,9 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
               href={project.demo_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 bg-white/90 dark:bg-gray-900/90 rounded-full hover:bg-white dark:hover:bg-gray-900 transition-colors"
+              className="p-2 bg-background/90 rounded-full hover:bg-background transition-colors"
             >
-              <ExternalLink className="w-5 h-5 text-gray-900 dark:text-white" />
+              <ExternalLink className="w-5 h-5 text-foreground" />
             </a>
           )}
         </div>
@@ -95,10 +95,10 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
 
       {/* Project Content */}
       <div className="p-6">
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+        <h3 className="text-2xl font-bold text-foreground mb-3">
           {project.title}
         </h3>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <p className="text-muted-foreground mb-4">
           {project.description}
         </p>
 
@@ -107,7 +107,7 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
           {tech.map((t: string, techIndex: number) => (
             <span
               key={techIndex}
-              className="px-3 py-1 bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 rounded-full text-sm"
+              className="px-3 py-1 bg-primary/10 dark:bg-primary/20 text-primary rounded-full text-sm"
             >
               {t}
             </span>
@@ -116,8 +116,8 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
 
         {/* Impact */}
         {project.impact && (
-          <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+          <div className="pt-4 border-t border-border">
+            <p className="text-sm text-muted-foreground">
               <span className="font-semibold">Impact:</span> {project.impact}
             </p>
           </div>

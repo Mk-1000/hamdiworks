@@ -82,14 +82,14 @@ export function SkillsEditor() {
     await load();
   };
 
-  if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading...</div>;
+  if (loading) return <div className="text-muted-foreground">Loading...</div>;
 
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Skills</h1>
+      <h1 className="text-2xl font-bold text-foreground">Skills</h1>
 
       {editingCatId && (
-        <form onSubmit={saveCategory} className="space-y-4 max-w-xl p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+        <form onSubmit={saveCategory} className="space-y-4 max-w-xl p-4 border border-border rounded-lg">
           <h2 className="font-semibold">Category</h2>
           <div>
             <Label>Title</Label>
@@ -97,7 +97,7 @@ export function SkillsEditor() {
           </div>
           <div>
             <Label>Icon</Label>
-            <select className="w-full border rounded px-3 py-2 dark:bg-gray-800 dark:border-gray-700" value={catForm.icon_name} onChange={(e) => setCatForm((f) => ({ ...f, icon_name: e.target.value }))}>
+            <select className="w-full border border-border rounded px-3 py-2 bg-background" value={catForm.icon_name} onChange={(e) => setCatForm((f) => ({ ...f, icon_name: e.target.value }))}>
               {ICON_OPTIONS.map((o) => <option key={o} value={o}>{o}</option>)}
             </select>
           </div>
@@ -114,7 +114,7 @@ export function SkillsEditor() {
         {(cat, dragHandle) => (
           <>
             {dragHandle}
-            <div className="flex-1 border border-gray-200 dark:border-gray-700 rounded-lg p-4 min-w-0">
+            <div className="flex-1 border border-border rounded-lg p-4 min-w-0">
               <div className="flex justify-between items-center mb-2">
                 <span className="font-semibold">{cat.title}</span>
                 <div className="flex gap-2">
@@ -123,7 +123,7 @@ export function SkillsEditor() {
                 </div>
               </div>
               {(editingSkill && cat.skills.some((s) => s.id === editingSkill.id)) || addingForCatId === cat.id ? (
-                <form onSubmit={saveSkill} className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded space-y-2">
+                <form onSubmit={saveSkill} className="mb-4 p-3 bg-muted rounded space-y-2">
                   <Label>{editingSkill ? 'Edit skill' : 'New skill'}</Label>
                   <Input placeholder="Skill name" value={skillForm.name} onChange={(e) => setSkillForm((f) => ({ ...f, name: e.target.value }))} required />
                   <div className="flex gap-2">
@@ -142,10 +142,10 @@ export function SkillsEditor() {
                 {(s, skillDragHandle) => (
                   <>
                     {skillDragHandle}
-                    <span className="flex-1 text-sm text-gray-600 dark:text-gray-400">{s.name} ({s.level}%, {s.years})</span>
+                    <span className="flex-1 text-sm text-muted-foreground">{s.name} ({s.level}%, {s.years})</span>
                     <div className="flex gap-1">
                       <Button variant="ghost" size="sm" onClick={() => { setEditingSkill(s); setSkillForm({ name: s.name, level: s.level, years: s.years }); }}>Edit</Button>
-                      <Button variant="ghost" size="sm" className="text-red-600" onClick={() => deleteSkill(s.id)}>Delete</Button>
+                      <Button variant="ghost" size="sm" className="text-destructive" onClick={() => deleteSkill(s.id)}>Delete</Button>
                     </div>
                   </>
                 )}

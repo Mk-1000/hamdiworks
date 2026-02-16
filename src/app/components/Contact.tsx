@@ -79,7 +79,7 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
   };
 
   return (
-    <section id="contact" className="py-20 bg-white dark:bg-gray-900">
+    <section id="contact" className="py-20 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -88,11 +88,11 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
             Get In Touch
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-teal-600 to-emerald-600 mx-auto mb-6" />
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <div className="w-20 h-1 bg-primary mx-auto mb-6" />
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Have a project in mind or want to collaborate? Feel free to reach out!
           </p>
         </motion.div>
@@ -105,10 +105,10 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <h3 className="text-2xl font-bold text-foreground mb-6">
               Contact Information
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-8">
+            <p className="text-muted-foreground mb-8">
               I'm always open to discussing new projects, creative ideas, or opportunities 
               to be part of your vision.
             </p>
@@ -125,22 +125,22 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     className="flex items-start gap-4"
                   >
-                    <div className="p-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-lg">
+                    <div className="p-3 bg-primary text-primary-foreground rounded-lg">
                       <Icon className="w-6 h-6" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
+                      <h4 className="font-semibold text-foreground mb-1">
                         {info.label}
                       </h4>
                       {info.link ? (
                         <a
                           href={info.link}
-                          className="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+                          className="text-muted-foreground hover:text-primary transition-colors"
                         >
                           {info.value}
                         </a>
                       ) : (
-                        <p className="text-gray-600 dark:text-gray-400">{info.value}</p>
+                        <p className="text-muted-foreground">{info.value}</p>
                       )}
                     </div>
                   </motion.div>
@@ -150,7 +150,7 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
 
             {/* Social Links */}
             <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">
+              <h4 className="font-semibold text-foreground mb-4">
                 Connect with me
               </h4>
               <div className="flex gap-4">
@@ -158,7 +158,7 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
                   href="https://github.com/Mk-1000"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110"
+                  className="p-3 bg-muted rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
                 >
                   <Github size={24} />
                 </a>
@@ -166,13 +166,13 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
                   href="https://linkedin.com/in/mokni-hamdi712"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110"
+                  className="p-3 bg-muted rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
                 >
                   <Linkedin size={24} />
                 </a>
                 <a
                   href="mailto:hamdimokni712@gmail.com"
-                  className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white transition-all duration-300 hover:scale-110"
+                  className="p-3 bg-muted rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
                 >
                   <Mail size={24} />
                 </a>
@@ -185,9 +185,9 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="mt-8 h-64 bg-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden"
+              className="mt-8 h-64 bg-muted rounded-xl overflow-hidden"
             >
-              <div className="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                 <MapPin size={48} />
               </div>
             </motion.div>
@@ -205,7 +205,7 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  className="block text-sm font-medium text-foreground mb-2"
                 >
                   Name *
                 </label>
@@ -215,15 +215,13 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border ${
-                    errors.name
-                      ? 'border-red-500'
-                      : 'border-gray-300 dark:border-gray-700'
-                  } rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all text-gray-900 dark:text-white`}
+                  className={`w-full px-4 py-3 bg-muted border ${
+                    errors.name ? 'border-destructive' : 'border-border'
+                  } rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground`}
                   placeholder="Your Name"
                 />
                 {errors.name && (
-                  <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+                  <p className="mt-1 text-sm text-destructive">{errors.name}</p>
                 )}
               </div>
 
@@ -231,7 +229,7 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  className="block text-sm font-medium text-foreground mb-2"
                 >
                   Email *
                 </label>
@@ -241,15 +239,13 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border ${
-                    errors.email
-                      ? 'border-red-500'
-                      : 'border-gray-300 dark:border-gray-700'
-                  } rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all text-gray-900 dark:text-white`}
+                  className={`w-full px-4 py-3 bg-muted border ${
+                    errors.email ? 'border-destructive' : 'border-border'
+                  } rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground`}
                   placeholder="your.email@example.com"
                 />
                 {errors.email && (
-                  <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                  <p className="mt-1 text-sm text-destructive">{errors.email}</p>
                 )}
               </div>
 
@@ -257,7 +253,7 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
               <div>
                 <label
                   htmlFor="subject"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  className="block text-sm font-medium text-foreground mb-2"
                 >
                   Subject *
                 </label>
@@ -267,15 +263,13 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border ${
-                    errors.subject
-                      ? 'border-red-500'
-                      : 'border-gray-300 dark:border-gray-700'
-                  } rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all text-gray-900 dark:text-white`}
+                  className={`w-full px-4 py-3 bg-muted border ${
+                    errors.subject ? 'border-destructive' : 'border-border'
+                  } rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground`}
                   placeholder="Project Discussion"
                 />
                 {errors.subject && (
-                  <p className="mt-1 text-sm text-red-500">{errors.subject}</p>
+                  <p className="mt-1 text-sm text-destructive">{errors.subject}</p>
                 )}
               </div>
 
@@ -283,7 +277,7 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  className="block text-sm font-medium text-foreground mb-2"
                 >
                   Message *
                 </label>
@@ -293,15 +287,13 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
                   value={formData.message}
                   onChange={handleChange}
                   rows={6}
-                  className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border ${
-                    errors.message
-                      ? 'border-red-500'
-                      : 'border-gray-300 dark:border-gray-700'
-                  } rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all resize-none text-gray-900 dark:text-white`}
+                  className={`w-full px-4 py-3 bg-muted border ${
+                    errors.message ? 'border-destructive' : 'border-border'
+                  } rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none text-foreground`}
                   placeholder="Tell me about your project..."
                 />
                 {errors.message && (
-                  <p className="mt-1 text-sm text-red-500">{errors.message}</p>
+                  <p className="mt-1 text-sm text-destructive">{errors.message}</p>
                 )}
               </div>
 
@@ -311,7 +303,7 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className={`w-full px-8 py-4 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 ${
+                className={`w-full px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 ${
                   isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
                 }`}
               >
@@ -337,7 +329,7 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-4 bg-green-100 dark:bg-green-900/30 border border-green-500 text-green-700 dark:text-green-400 rounded-lg"
+                  className="p-4 bg-primary/10 border border-primary text-primary rounded-lg"
                 >
                   Thank you! Your message has been sent successfully. I'll get back to you soon.
                 </motion.div>

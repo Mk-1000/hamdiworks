@@ -40,7 +40,7 @@ function SortableRow<T extends { id: string }>({ item, children }: SortableItemP
   const dragHandle = (
     <button
       type="button"
-      className="p-1 cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 touch-none"
+      className="p-1 cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground touch-none"
       {...attributes}
       {...listeners}
       aria-label="Drag to reorder"
@@ -53,7 +53,7 @@ function SortableRow<T extends { id: string }>({ item, children }: SortableItemP
     <li
       ref={setNodeRef}
       style={style}
-      className={`flex items-center gap-2 py-2 border-b border-gray-200 dark:border-gray-700 ${isDragging ? 'opacity-50 z-10' : ''}`}
+      className={`flex items-center gap-2 py-2 border-b border-border ${isDragging ? 'opacity-50 z-10' : ''}`}
     >
       {children(item, dragHandle)}
     </li>

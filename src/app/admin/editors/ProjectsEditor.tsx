@@ -84,11 +84,11 @@ export function ProjectsEditor() {
     await load();
   };
 
-  if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading projects...</div>;
+  if (loading) return <div className="text-muted-foreground">Loading projects...</div>;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Projects</h1>
+      <h1 className="text-2xl font-bold text-foreground mb-6">Projects</h1>
       {editingId ? (
         <form onSubmit={handleSave} className="space-y-4 max-w-xl mb-8">
           <div>
@@ -134,7 +134,7 @@ export function ProjectsEditor() {
         {(p, dragHandle) => (
           <>
             {dragHandle}
-            <span className="text-gray-900 dark:text-white font-medium flex-1">{p.title}</span>
+            <span className="text-foreground font-medium flex-1">{p.title}</span>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={() => startEdit(p)}>Edit</Button>
               <Button variant="destructive" size="sm" onClick={() => handleDelete(p.id)}>Delete</Button>

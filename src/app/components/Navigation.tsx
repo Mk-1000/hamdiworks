@@ -5,9 +5,11 @@ import { useTheme } from './ThemeProvider';
 
 interface NavigationProps {
   scrollY: number;
+  platformName?: string;
+  logoHeaderUrl?: string | null;
 }
 
-export function Navigation({ scrollY }: NavigationProps) {
+export function Navigation({ scrollY, platformName = 'Portfolio', logoHeaderUrl }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const isScrolled = scrollY > 50;
@@ -36,7 +38,7 @@ export function Navigation({ scrollY }: NavigationProps) {
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-lg'
+            ? 'bg-background/80 backdrop-blur-lg shadow-lg border-b border-border'
             : 'bg-transparent'
         }`}
       >
@@ -47,9 +49,20 @@ export function Navigation({ scrollY }: NavigationProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="text-2xl font-bold bg-gradient-to-r from-teal-500 to-emerald-600 bg-clip-text text-transparent"
+              className="flex items-center"
             >
-              HM
+              {logoHeaderUrl ? (
+                <img src={logoHeaderUrl} alt={platformName} className="h-8 object-contain" />
+              ) : (
+                <span className="text-2xl font-bold text-primary">
+                  {platformName
+                    .split(/\s+/)
+                    .map((w) => w[0])
+                    .join('')
+                    .slice(0, 2)
+                    .toUpperCase() || 'P'}
+                </span>
+              )}
             </motion.div>
 
             {/* Desktop Navigation */}
@@ -65,7 +78,7 @@ export function Navigation({ scrollY }: NavigationProps) {
                     e.preventDefault();
                     scrollToSection(item.href);
                   }}
-                  className="text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 transition-colors cursor-pointer"
+                  className="text-foreground hover:text-primary transition-colors cursor-pointer"
                 >
                   {item.name}
                 </motion.a>
@@ -77,7 +90,7 @@ export function Navigation({ scrollY }: NavigationProps) {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
                 onClick={toggleTheme}
-                className="p-2 rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
+                className="p-2 rounded-lg bg-muted text-foreground hover:bg-accent transition-colors"
                 aria-label="Toggle theme"
               >
                 {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
@@ -88,14 +101,14 @@ export function Navigation({ scrollY }: NavigationProps) {
             <div className="md:hidden flex items-center space-x-4">
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+                className="p-2 rounded-lg bg-muted text-foreground"
                 aria-label="Toggle theme"
               >
                 {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
               </button>
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-gray-700 dark:text-gray-300"
+                className="text-foreground"
                 aria-label="Toggle menu"
               >
                 {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -111,7 +124,7 @@ export function Navigation({ scrollY }: NavigationProps) {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800"
+              className="md:hidden bg-background border-t border-border"
             >
               <div className="px-4 py-4 space-y-3">
                 {navItems.map((item) => (
@@ -122,7 +135,7 @@ export function Navigation({ scrollY }: NavigationProps) {
                       e.preventDefault();
                       scrollToSection(item.href);
                     }}
-                    className="block text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 transition-colors cursor-pointer"
+                    className="block text-foreground hover:text-primary transition-colors cursor-pointer"
                   >
                     {item.name}
                   </a>

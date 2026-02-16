@@ -13,6 +13,7 @@ Go to [supabase.com](https://supabase.com) → your project (or create one).
 3. Copy the **entire** contents of `supabase/migrations/001_schema.sql` from this repo and paste into the editor.
 4. Click **Run** (or press Ctrl+Enter). You should see "Success. No rows returned."
 5. Run `supabase/migrations/002_storage_bucket.sql` the same way to create the **portfolio** storage bucket and its RLS policies (used for hero and project image uploads).
+6. Run `supabase/migrations/003_platform_settings.sql` to create the **platform_settings** table (platform name, favicon, logos, color palette for the central config panel).
 
 ## 3. Seed initial content
 

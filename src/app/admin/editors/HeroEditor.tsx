@@ -72,11 +72,11 @@ export function HeroEditor() {
     setSaving(false);
   };
 
-  if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading hero...</div>;
+  if (loading) return <div className="text-muted-foreground">Loading hero...</div>;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Hero</h1>
+      <h1 className="text-2xl font-bold text-foreground mb-6">Hero</h1>
       <form onSubmit={handleSave} className="space-y-4 max-w-xl">
         <div>
           <Label>Name</Label>
