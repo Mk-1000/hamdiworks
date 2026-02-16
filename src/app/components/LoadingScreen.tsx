@@ -44,7 +44,7 @@ export function LoadingScreen({ visible }: LoadingScreenProps) {
               transition={{ delay: 0.5 }}
               className="text-primary-foreground text-lg"
             >
-              Loading Portfolio...
+              Loading...
             </motion.p>
           </div>
         </motion.div>

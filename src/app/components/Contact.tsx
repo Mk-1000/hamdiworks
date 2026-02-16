@@ -202,18 +202,6 @@ export function Contact({ contactInfo }: { contactInfo?: ContactInfoRow[] | null
               </div>
             </div>
 
-            {/* Map Placeholder */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="mt-8 h-64 bg-muted rounded-xl overflow-hidden"
-            >
-              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                <MapPin size={48} />
-              </div>
-            </motion.div>
           </motion.div>
 
           {/* Contact Form */}
